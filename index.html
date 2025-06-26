@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade</title>
+</head>
+<body>
+    
+</body>
+<script>
+    let lista = [];
+    for (let i = 0; i < 10; i++) {
+        a = prompt("Digite o " + (i + 1) + " elemento do vetor");
+        lista.push(a);
+    }
+    lista.sort();
+    alert("Seu vetor é " + lista);
+</script>
+<script>
+    let nomes = [];
+    let idades = [];
+    for (let i = 0; i < 7; i++) {
+        let nome = prompt("Digite o " + (i + 1) + " nome");
+        let idade = prompt("Digite a " + (i + 1) + " idade");
+        nomes.push(nome);
+        idades.push(idade);
+    }
+    for (let i = 0; i < 7; i++) {
+        if ((idades[i] >= 16) && (idades[i] < 18) || (idades[i] >= 70)) {
+            alert(nomes[i] + " com " + idades[i] + " anos, vota facultivamente.");
+        } else if ((idades[i] >= 18) && (idades[i] < 70)) {
+            alert(nomes[i] + " com " + idades[i] + " anos, vota obrigatoriamente.");
+        } else {
+            alert(nomes[i] + " nao vota pois e menor de idade");
+        }
+    }
+</script>
+<script>
+    
+</script>
+</html>
