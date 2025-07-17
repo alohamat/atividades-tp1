@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora</title>
+    <style>
+        body{
+            background-color: #343434;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+      #main{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        background-color: orange;
+        margin-left: auto;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+        margin-right: auto;
+        margin-top: 75px;
+        border-radius: 30px;
+        padding: 0 25px 10px;
+      }
+      h1{
+        font-family: arial;
+      }
+      #formulario{
+        order: 2;
+        display: flex;
+        gap: 20px;
+      }
+      input{
+        border-radius: 10px;
+        padding: 5px;
+      }
+      #result{
+        color: orange;
+        justify-self: center;
+      }
+      button{
+        border-radius: 10px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+        <h1>Calculadora regra de três</h1>
+        <form id="formulario">
+            <input type="number" placeholder="Número 1" id="um">
+            <input type="number" placeholder="Número 2" id="dois">
+            <input type="number" placeholder="Número 3" id="tres">
+            <button type="submit">Calcular</button>
+        </form>
+    </div>
+    <h1 id="result">Resultado aparecerá aqui</h1>
+  </body>
+  <script>
+    const form = document.getElementById("formulario"); // pega o form pelo id
+    const result = document.getElementById("result");
+    
+
+    form.addEventListener("submit", e => { // quando o form tiver sido enviado
+        e.preventDefault(); // nao deixa o submit atualizar a pagina
+
+        result.innerText = (form[1].value * form[2].value)/form[0].value;
+    })
+  </script>
+</html>
