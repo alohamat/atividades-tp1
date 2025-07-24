@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>validarFormulario</title>
+</head>
+<body>
+    <form id="formulario">
+        <label for="email">E-mail</label>
+        <input type="email" name="email" id="email"><br>
+        <label for="password">Senha</label>
+        <input type="password" name="password" id="password"><br>
+        <button type="submit">Enviar</button>
+    </form>
+    <h1 id="result">Validação aparecerá aqui.</h1>
+</body>
+<script>
+    const form = document.getElementById("formulario");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        console.log("Email: "+ email + " senha: " + password);
+
+
+        if (password == "") {
+            result.innerHTML = "Por favor, preencha todos os campos";
+            console.log("senha faltante");
+            return;
+        }
+        if (password.length <= 6) {
+            result.innerHTML = "Digite uma senha mais longa!";
+            console.log("senha pequena");
+            return;
+        }
+        result.innerHTML = "E-mail e senha validados!";
+
+    })
+</script>
+</html>
