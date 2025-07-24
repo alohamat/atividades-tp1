@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+<body>
+    <input type="number" name="n2" id="n1" placeholder="Número 1">
+    <input type="number" name="n2" id="n2" placeholder="Número 2"><br>
+    <button id="soma">Somar</button>
+    <button id="sub">Subtrair</button>
+    <button id="mult">Multiplicar</button>
+    <button id="divi">Dividir</button>
+    <button id="pow">Potência</button><br>
+    <button id="limp">Limpar</button>
+    <h1 id="res">Resultado aparecerá aqui: </h1>
+</body>
+<script>
+    const soma = document.getElementById("soma");
+    const sub = document.getElementById("sub");
+    const mult = document.getElementById("mult");
+    const divi = document.getElementById("divi");
+    const pow = document.getElementById("pow");
+    const limp = document.getElementById("limp");
+    const res = document.getElementById("res");
+
+    
+    soma.addEventListener("click", () => {
+        const r1 = document.getElementById("n1").value;
+        const r2 = document.getElementById("n2").value;
+        let resSoma = parseFloat(r1) + parseFloat(r2);
+        res.innerHTML = "Soma resultou em: " + resSoma;
+    });
+    sub.addEventListener("click", () => {
+        const r1 = document.getElementById("n1").value;
+        const r2 = document.getElementById("n2").value;
+        let resSub = parseFloat(r1) - parseFloat(r2);
+        res.innerHTML = "Subtração resultou em: " + resSub;
+    });
+    mult.addEventListener("click", () => {
+        const r1 = document.getElementById("n1").value;
+        const r2 = document.getElementById("n2").value;
+        let resMult = parseFloat(r1) * parseFloat(r2);
+        res.innerHTML = "Multiplicação resultou em: " + resMult;
+    });
+    divi.addEventListener("click", () => {
+        const r1 = document.getElementById("n1").value;
+        const r2 = document.getElementById("n2").value;
+        let resDivi = parseFloat(n1) / parseFloat(n2);
+        res.innerHTML = "Divisão resultou em: " + resDivi;
+    });
+    pow.addEventListener("click", () => {
+        const r1 = document.getElementById("n1").value;
+        const r2 = document.getElementById("n2").value;
+        let resPow = Math.pow(parseFloat(r1), parseFloat(r2));
+        res.innerHTML = parseFloat(r1) + " elevado a " + parseFloat(r2) + " resultou em: " + resPow;
+    });
+    limp.addEventListener("click", () => {
+        const r1 = document.getElementById("n1").value = "";
+        const r2 = document.getElementById("n2").value = "";
+        res.innerHTML = "Resultado aparecerá aqui: ";
+    })
+    
+</script>
+</html>
