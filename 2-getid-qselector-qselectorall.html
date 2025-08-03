@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: burlywood;
+        }
+        h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            color: aliceblue;
+            display: flex;
+            justify-self: center;
+        }
+        p {
+            font-family: Arial, Helvetica, sans-serif;
+            color: aliceblue;
+            font-weight: bold;
+        }
+        #oculto {
+            display: none;
+        }
+        div{
+            background-color: blue;
+            width: fit-content;
+        }
+        .botao-estiloso {
+            background-color: steelblue;
+            padding: 2px 8px 2px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px;
+            transition: all 150ms ease-in-out;
+        }
+        .botao-estiloso:hover {
+            cursor: pointer;
+            background-color: blue;
+            transform: scale(1.10);
+        }
+    </style>
+</head>
+<body>
+    <h1 id="titulo">Titulo</h1>
+    <button onclick="alterarTitulo()">Alterar titulo</button>
+    <h1>Alterar cor</h1>
+    <p id="destaque">Esse parágrafo mudará de cor</p>
+    <button onclick="mudarCor()">Mudar a cor</button>
+    <h1>Modificar lista</h1>
+    <ul>
+        <li>Um</li>
+        <li>Dois</li>
+        <li>Tres</li>
+    </ul>
+    <button onclick="modificarLista()">Modificar!</button>
+    <h1>Texto oculto</h1>
+    <p id="oculto">Parabéns vc achou o texto oculto!</p>
+    <button onclick="encontrarTexto()">Encontrar o texto</button>
+    <h1>Texto do Input</h1>
+    <input type="text" id="entrada">
+    <button onclick="escrever()">Escrever!</button>
+    <p id="resultado"></p>
+    <h1>Contar elementos</h1>
+    <div>caixa</div>
+    <div>caixa</div>
+    <div>caixa</div>
+    <div>caixa</div>
+    <div>caixa</div>
+    <button onclick="contarCaixas()">Contar</button>
+    <p id="resultadoCaixas"></p>
+    <h1>Trocar imagens</h1>
+    <p id="risada" onclick="fazerOzzyRir()">Faça o Ozzy rir apertando em mim</p>
+    <img src="ozzyserio.jpeg" alt="Ozzy" id="ozzyosbourne">
+    <h1>Botão estiloso</h1>
+    <button id="botaoModa" class="botao-feio" onclick="estilizarBotao()">Moda é coisa séria!</button>
+    <h1>Mensagem</h1>
+    <p id="mensagem">Mensagem do programador: </p>
+    <button onclick="mensagem()">Exibir</button>
+    <h1>Comentários</h1>
+    <p class="listaP">Eu amo o IFF.</p>
+    <p class="listaP">Eu odeio o IFF.</p>
+    <p class="listaP">Eu gosto mais ou menos do IFF.</p>
+    <p class="listaP">Eu gosto de açaí.</p>
+    <p class="listaP">Eu gosto de JavaScript</p>
+    <button onclick="comentar()">Comentar</button>
+</body>
+<script>
+    function alterarTitulo() {
+        document.querySelector("h1").innerText = "Título alterado!";
+    }
+    function mudarCor() {
+        document.querySelector("p").style.color = "blue";
+    }
+    function modificarLista() {
+        document.querySelectorAll("li").forEach(li => {
+            li.innerText = "Modificado!";
+        })
+    }
+    function encontrarTexto() {
+        document.getElementById("oculto").style.display = "block";
+    }
+    function escrever() {
+        const valor = document.getElementById("entrada").value;
+        document.getElementById("resultado").innerText = valor;
+    }
+    function contarCaixas() {
+        caixas = document.querySelectorAll("div").length;
+        document.getElementById("resultadoCaixas").innerHTML = "Existem " + caixas + " caixas.";
+    }
+    function fazerOzzyRir() {
+        document.getElementById("ozzyosbourne").src = "ozzyrindo.jpeg";
+        document.getElementById("risada").innerText = "Obrigado por fazer o Ozzy rir";
+    }
+    function estilizarBotao() {
+        document.getElementById("botaoModa").className = "botao-estiloso";
+    }
+    function mensagem() {
+        document.getElementById("mensagem").innerText += " geleiacesar"
+    }
+    function comentar() {
+        document.querySelectorAll(".listaP").forEach(li => {
+            const conteudo = li.innerText;
+            li.innerText = "Comentário: " + conteudo;
+        })
+    }
+</script>
+</html>
