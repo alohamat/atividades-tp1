@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+<body>
+    <h1>Calculadora</h1>
+
+    <input type="number" id="a" placeholder="Valor A"> <input type="number" id="b" placeholder="Valor"> <br>
+    <input type="button" value="+" onclick="adicao()"> <input type="button" value="-" onclick="subtracao()"> <input type="button" value="x" onclick="multiplicacao()"> <input type="button" value="/" onclick="divisao()"> <input type="button" value="Limpar" onclick="limpar()">
+    <p id="resultado"></p>
+    <h2>Histórico:</h2>
+    <ul id="historico"></ul>
+    <script>
+        let object = {};
+        function atualizaHistorico(){
+            historico = document.getElementById('historico');
+            let li = document.createElement('li');
+            li.innerHTML = `${object.operando1} ${object.operacao} ${object.operando2} = ${object.resultado}`;
+            historico.appendChild(li);
+            
+        }
+        function adicao() {
+            object.operando1 = parseFloat(document.getElementById('a').value);
+            object.operando2 = parseFloat(document.getElementById('b').value)
+            object.operacao = " + "
+            object.resultado = (object.operando1 + object.operando2);
+            resultado.innerHTML = object.operando1 + object.operacao + object.operando2 + " = " + object.resultado;
+            document.getElementById('a').value = object.resultado;
+            document.getElementById('b').value = '';
+            atualizaHistorico();
+        }
+        function subtracao() {
+            object.operando1 = parseFloat(document.getElementById('a').value);
+            object.operando2 = parseFloat(document.getElementById('b').value)
+            object.operacao = " - "
+            object.resultado = (object.operando1 - object.operando2);
+            resultado.innerHTML = object.operando1 + object.operacao + object.operando2 + " = " + object.resultado;
+            document.getElementById('a').value = object.resultado;
+            document.getElementById('b').value = '';
+            atualizaHistorico();
+        }
+        function multiplicacao() {
+            object.operando1 = parseFloat(document.getElementById('a').value);
+            object.operando2 = parseFloat(document.getElementById('b').value)
+            object.operacao = " x "
+            object.resultado = (object.operando1 * object.operando2);
+            resultado.innerHTML = object.operando1 + object.operacao + object.operando2 + " = " + object.resultado;
+            document.getElementById('a').value = object.resultado;
+            document.getElementById('b').value = '';
+            atualizaHistorico();
+        }
+        function divisao() {
+            object.operando1 = parseFloat(document.getElementById('a').value);
+            object.operando2 = parseFloat(document.getElementById('b').value)
+            object.operacao = " / "
+            object.resultado = (object.operando1 / object.operando2);
+            resultado.innerHTML = object.operando1 + object.operacao + object.operando2 + " = " + object.resultado;
+            document.getElementById('a').value = object.resultado;
+            document.getElementById('b').value = '';
+            atualizaHistorico();
+        }
+        function limpar() {
+            document.getElementById('a').value = "";
+            document.getElementById('b').value = "";
+            document.getElementById('resultado').innerText = "";
+            document.getElementById('historico').innerHTML = "";
+        }
+    </script>
+</body>
+</html>
