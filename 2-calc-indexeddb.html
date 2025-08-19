@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora IndexedDB</title>
+</head>
+<body>
+    <h1>Calculadora</h1>
+
+    <input type="number" id="a" placeholder="Valor A"> <input type="number" id="b" placeholder="Valor B"> <br>
+    <input type="button" value="+" onclick="adicao()"> 
+    <input type="button" value="-" onclick="subtracao()"> 
+    <input type="button" value="x" onclick="multiplicacao()"> 
+    <input type="button" value="/" onclick="divisao()"> 
+    <input type="button" value="Limpar" onclick="limpar()">
+    
+    <p id="resultado"></p>
+    <h2>Histórico:</h2>
+    <ul id="historico"></ul>
+
+    <script>
+        const DB_NAME = 'CalculadoraDB';
+        const DB_VERSION = 1;
+        const STORE_NAME = 'HistoricoStore';
+        let db;
+
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+        request.onerror = function(event) {
+            console.error("Erro ao abrir o banco de dados:", event.target.errorCode);
+        };
+
+        request.onsuccess = function(event) {
+            db = event.target.result;
+            console.log("Banco de dados aberto");
+            mostrarHistorico();
+        };
+
+        request.onupgradeneeded = function(event) {
+            db = event.target.result;
+            if (!db.objectStoreNames.contains(STORE_NAME)) {
+                db.createObjectStore(STORE_NAME, { autoIncrement: true });
+                console.log("Histórico criado");
+            }
+        };
+
+        function atualizaHistorico(a, b, operacao, resultado) {
+            const historico = document.getElementById('historico');
+            let li = document.createElement('li');
+            li.innerHTML = `${a} ${operacao} ${b} = ${resultado}`;
+            historico.appendChild(li);
+        }
+
+        function salvarHistorico(a, b, operacao, resultado) {
+            const transaction = db.transaction([STORE_NAME], 'readwrite');
+            const objectStore = transaction.objectStore(STORE_NAME);
+            const data = {
+                operando1: a,
+                operando2: b,
+                operacao: operacao,
+                resultado: resultado
+            };
+
+            const request = objectStore.add(data);
+            request.onsuccess = function() {
+                console.log("Operação salva com sucesso");
+                mostrarHistorico();
+            };
+            request.onerror = function() {
+                console.error("Erro ao salvar a operação");
+            };
+        }
+
+        function mostrarHistorico() {
+            const transaction = db.transaction([STORE_NAME], 'readonly');
+            const objectStore = transaction.objectStore(STORE_NAME);
+            const historico = document.getElementById('historico');
+            historico.innerHTML = '';
+
+            objectStore.openCursor().onsuccess = function(event) {
+                const cursor = event.target.result;
+                if (cursor) {
+                    const { operando1, operando2, operacao, resultado } = cursor.value;
+                    atualizaHistorico(operando1, operando2, operacao, resultado);
+                    cursor.continue();
+                } else {
+                    console.log("Dados recuperados");
+                }
+            };
+        }
+
+        function adicao() {
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const operacao = " + ";
+            const resultado = a + b;
+            document.getElementById('resultado').innerText = `${a} + ${b} = ${resultado}`;
+            document.getElementById('a').value = resultado;
+            document.getElementById('b').value = '';
+            salvarHistorico(a, b, operacao, resultado);
+        }
+
+        function subtracao() {
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const operacao = " - ";
+            const resultado = a - b;
+            document.getElementById('resultado').innerText = `${a} - ${b} = ${resultado}`;
+            document.getElementById('a').value = resultado;
+            document.getElementById('b').value = '';
+            salvarHistorico(a, b, operacao, resultado);
+        }
+
+        function multiplicacao() {
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const operacao = " x ";
+            const resultado = a * b;
+            document.getElementById('resultado').innerText = `${a} x ${b} = ${resultado}`;
+            document.getElementById('a').value = resultado;
+            document.getElementById('b').value = '';
+            salvarHistorico(a, b, operacao, resultado);
+        }
+
+        function divisao() {
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const operacao = " / ";
+            const resultado = a / b;
+            document.getElementById('resultado').innerText = `${a} / ${b} = ${resultado}`;
+            document.getElementById('a').value = resultado;
+            document.getElementById('b').value = '';
+            salvarHistorico(a, b, operacao, resultado);
+        }
+
+        function limpar() {
+            document.getElementById('a').value = "";
+            document.getElementById('b').value = "";
+            document.getElementById('resultado').innerText = "";
+        }
+    </script>
+</body>
+</html>
