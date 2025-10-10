@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Nomes</title>
+  <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+    input, button {
+      margin: 5px 0;
+      padding: 5px;
+    }
+    #mensagem, #listaNomes {
+      margin-top: 15px;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Cadastro de Nomes</h1>
+
+  <label for="nome">Digite um nome:</label><br>
+  <input type="text" id="nome" name="nome"><br>
+
+  <button onclick="verificarENomeAdicionar()">Adicionar Nome</button>
+
+  <button 
+    hx-get="https://ola-tp1.onrender.com/nomes" 
+    hx-target="#listaNomes"
+    hx-swap="innerHTML">
+    Listar Nomes
+  </button>
+
+  <div id="mensagem"></div>
+
+  <div id="listaNomes"></div>
+
+  <script>
+    function verificarENomeAdicionar() {
+      const nome = document.getElementById('nome').value.trim();
+      const mensagemDiv = document.getElementById('mensagem');
+
+      if (!nome) {
+        mensagemDiv.innerText = 'Por favor, digite um nome.';
+        return;
+      }
+
+      // verifica se o nome já existe
+      fetch(`https://ola-tp1.onrender.com/existe?nome=${nome}`)
+        .then(data => {
+          if (data === true) {
+            mensagemDiv.innerText = `O nome "${nome}" já está cadastrado.`;
+          } else {
+            // se nao existe manda pro cadastro
+            fetch('https://ola-tp1.onrender.com/nomes', {
+              method: 'POST',
+              body: nome
+            })
+            .then(resposta => {
+              mensagemDiv.innerText = `Nome "${nome}" adicionado com sucesso.`;
+              document.querySelector('[hx-get]').click(); // tento atualizar sozinho
+            })
+            .catch(err => {
+              mensagemDiv.innerText = 'Erro ao adicionar nome.';
+              console.error(err);
+            });
+          }
+        })
+        .catch(err => {
+          mensagemDiv.innerText = 'Erro ao verificar nome.';
+          console.error(err);
+        });
+    }
+  </script>
+
+</body>
+</html>
