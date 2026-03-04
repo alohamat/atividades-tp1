@@ -5,8 +5,9 @@ const path = require("path");
 const app = express();
 const PORT = 3000;
 
+
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public")); // <-- FALTAVA ISSO
+app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -17,7 +18,8 @@ app.get("/contato", (req, res) => res.render("contato"));
 app.get("/detalhes", (req, res) => res.render("detalhes"));
 
 app.post("/contato", (req, res) => {
-    const dados = {
+
+    const novoDado = {
         nome: req.body.nome,
         email: req.body.email,
         assunto: req.body.assunto,
@@ -26,9 +28,40 @@ app.post("/contato", (req, res) => {
         data: new Date()
     };
 
-    fs.writeFile("dados.json", JSON.stringify(dados, null, 2), (err) => {
-        if (err) return res.status(500).send("Erro ao salvar");
-        res.render("sucesso");
+    const caminhoArquivo = path.join(__dirname, "dados.json");
+
+    fs.readFile(caminhoArquivo, "utf-8", (err, data) => {
+
+        let dados = [];
+
+        if (!err && data) {
+            dados = JSON.parse(data);
+        }
+
+        dados.push(novoDado);
+
+        fs.writeFile(caminhoArquivo, JSON.stringify(dados, null, 2), (err) => {
+            if (err) {
+                return res.status(500).send("Erro ao salvar");
+            }
+
+            res.render("sucesso");
+        });
+    });
+});
+app.get("/mensagens", (req, res) => {
+
+    const caminhoArquivo = path.join(__dirname, "dados.json");
+
+    fs.readFile(caminhoArquivo, "utf-8", (err, data) => {
+
+        if (err) {
+            return res.render("mensagens", { mensagens: [] });
+        }
+
+        const mensagens = JSON.parse(data);
+
+        res.render("mensagens", { mensagens });
     });
 });
 
